@@ -26,6 +26,23 @@ const options = {
       component: TabsView,
       redirect: '/login',
       children: [
+
+        {
+
+          path: 'master',
+          name: 'MASTER',
+          meta: {
+            icon: 'table'
+          },
+          component: PageView,
+          children: [
+            {
+              path: 'usermgt',
+              name: 'USER MGT',
+              component: () => import('@/pages/master/UserMgt'),
+            }
+          ]
+        },
         {
           path: 'dashboard',
           name: 'Dashboard',

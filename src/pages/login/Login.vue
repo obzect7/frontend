@@ -79,6 +79,7 @@ import {login, getRoutesConfig} from '@/services/user'
 import {setAuthorization} from '@/utils/request'
 import {loadRoutes} from '@/utils/routerUtil'
 import {mapMutations} from 'vuex'
+import Mock from "mockjs";
 
 export default {
   name: 'Login',
@@ -109,16 +110,32 @@ export default {
       })
     },
     afterLogin(res) {
+
       this.logging = false
       const loginRes = res.data
-      console.log('res.data===',res.data);
-      if (loginRes.code >= 0) {
-        const {user, permissions, roles} = loginRes.data
+      //console.log('loginRes.code===',loginRes.code);
+
+      if (loginRes.code == '200') {
+
+        // console.log('200')
+        //const {user, permissions, roles} = loginRes.data
+
+        //일단 강제로박아둠 추구 DB에서 가져올것
+        const user = Mock.mock({ name: '@ADMIN',avatar: '@AVATAR', address: '@CITY', position: '@POSITION' })
+        const permissions = [{id: 'queryForm', operation: ['add', 'edit']}]
+        const roles = [{id: 'admin', operation: ['add', 'edit', 'delete']}]
         this.setUser(user)
         this.setPermissions(permissions)
         this.setRoles(roles)
-        setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt)})
+
+        //console.log('loginRes.data===',loginRes.data);
+        //console.log('loginRes.token===',loginRes.data.token);
+
+        const token = loginRes.data.token;
+        //setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt)})
+        setAuthorization({token: token, expireAt: new Date(loginRes.data.expireAt)})
         // 라우팅 구성 가져오기
+
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
           loadRoutes(routesConfig)

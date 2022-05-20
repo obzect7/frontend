@@ -1,4 +1,4 @@
-import {LOGIN, ROUTES} from '@/services/api'
+import {LOGIN, ROUTES, USERLIST} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
@@ -8,16 +8,30 @@ import {request, METHOD, removeAuthorization} from '@/utils/request'
  * @returns {Promise<AxiosResponse<T>>}
  */
 export async function login(name, password) {
-  console.log('login name ==',name)
-  console.log('login password ==',password)
+  //console.log('login name ==',name)
+  //console.log('login password ==',password)
 
   return request(LOGIN, METHOD.POST, {
-    name: name,
+    userid: name,
     password: password
   })
 }
 
+/**
+ * 사용자조회
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export async function selectUserList(params) {
+  //console.log('login name ==',name)
+  //console.log('login password ==',password)
+
+  return request(USERLIST, METHOD.POST, params)
+}
+
+
+
 export async function getRoutesConfig() {
+  console.log('ROUTES ==',ROUTES)
   return request(ROUTES, METHOD.GET)
 }
 
