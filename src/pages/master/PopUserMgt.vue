@@ -29,12 +29,26 @@
 
       </a-form-item>
 
+      <a-form-item :label="$t('usergb')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" :required="false" >
+        <a-radio-group v-model="usergb" name="usergb">
+          <a-radio :value="'N'">{{$t('normal')}}</a-radio>
+          <a-radio :value="'C'">{{$t('coperation')}}</a-radio>
+          <a-radio :value="'A'">{{$t('all')}}</a-radio>
+        </a-radio-group>
+      </a-form-item>
+
+      <a-form-item :label="$t('hp')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" >
+        <a-input :placeholder="$t('hp')" name="hp" :required="true"
+                 v-decorator="['hp', {rules: [{ required: false,  whitespace: true}]}]"
+        />
+      </a-form-item>
+
       <a-form-item :label="$t('birthday')" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-date-picker style="width: 100%" placeholder="birthday" v-model="birthday" name="birthday" />
       </a-form-item>
 
       <a-form-item :label="$t('gender')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" >
-        <select class="custom-select" v-model="gender" >
+        <select class="custom-select" v-model="gender" name="gender" >
           <option :value="null" >{{$t('SELECT')}}</option>
           <option :value="'M'" >{{$t('MAN')}}</option>
           <option :value="'W'" >{{$t('WOMAN')}}</option>
@@ -44,13 +58,13 @@
       </a-form-item>
 
       <a-form-item :label="$t('remark')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" >
-        <a-textarea rows="4" :placeholder="$t('remark')" v-model="remark" />
+        <a-textarea rows="4" :placeholder="$t('remark')" v-model="remark" name="remark"/>
       </a-form-item>
 
       <a-form-item :label="$t('useyn')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" :required="false" >
-        <a-radio-group v-model="useyn" >
-          <a-radio :value="1">{{$t('use')}}</a-radio>
-          <a-radio :value="2">{{$t('unused')}}</a-radio>
+        <a-radio-group v-model="useyn" name="useyn">
+          <a-radio :value="'Y'">{{$t('use')}}</a-radio>
+          <a-radio :value="'N'">{{$t('unused')}}</a-radio>
         </a-radio-group>
       </a-form-item>
 
@@ -64,6 +78,9 @@
 </template>
 
 <script>
+import {saveuser} from "@/services/user";
+//import {SAVEUSER} from "@/services/api";
+
 export default {
   name: 'BasicForm',
   i18n: require('./i18n'),
@@ -72,13 +89,21 @@ export default {
       userid : '',
       usernm : '',
       password :'',
-      socialCd :null,
+      socialCd :'INSIDE',
+      usergb : '',
+      hp : '',
       birthday : '',
       gender : null,
       remark : '',
-      useyn: 1,
+      useyn: 'Y',
       form: this.$form.createForm(this)
     }
+  },
+  created() {
+
+  },
+  mounted() {
+
   },
   computed: {
     desc() {
@@ -101,11 +126,30 @@ export default {
           for (let [key, val] of formData.entries()) {
             Object.assign(data, {[key]: val})
           }
+
+          let insUserid = 'admin' //store에서 가져올것
+
+          Object.assign(data, {['insuserid']: insUserid})
+          Object.assign(data, {['upduserid']: insUserid})
+
           console.log("data===", data);
+
+
+          saveuser(data).then(this.aftersaveuser)
         }
 
       })
 
+    },
+    aftersaveuser(res) {
+      //console.log('res==', res)
+      const loginRes = res.data
+      if (loginRes.code == '200') {
+
+        this.$message.success('저장완료되었습니다.', 3)
+        this.$emit("closepop", '')
+
+      }
     }
   }
 

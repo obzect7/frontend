@@ -1,9 +1,9 @@
 <template>
   <a-card>
     <div>
-      <PopUserMgt v-show="isPopUp" @closepop="isPopUp=false" />
+      <PopUserMgt v-if="isPopUp" @closepop="closePopUserMgt" />
     </div>
-    <div v-show="!isPopUp" >
+    <div v-if="!isPopUp" >
       <a-form layout="horizontal" id="frm">
         <div >
           <a-row >
@@ -29,7 +29,7 @@
         </a-row>
       </a-form>
     </div>
-    <div v-show="!isPopUp">
+    <div v-if="!isPopUp">
       <AUIGrid ref="myGrid" class="grid-wrap"></AUIGrid>
     </div>
   </a-card>
@@ -130,6 +130,8 @@ export default {
 
         // 그리드 데이터 삽입하기
         //grid.setGridData(this.gridData);
+        this.search()
+
 
     },
 
@@ -147,7 +149,7 @@ export default {
         for (let [key, val] of formData.entries()) {
           Object.assign(data, {[key]: val})
         }
-        //console.log("data===", data);
+        console.log("data===", data);
 
         selectUserList(data).then(this.afterselectUserList)
 
@@ -174,6 +176,11 @@ export default {
       openPopUserMgt(){
         //console.log('sssss')
         this.isPopUp = true
+      },
+      closePopUserMgt(){
+        //console.log('sssss')
+        this.isPopUp = false
+        this.$router.go()
       },
 
     }

@@ -1,4 +1,4 @@
-import {LOGIN, ROUTES, USERLIST} from '@/services/api'
+import {LOGIN, ROUTES, USERLIST, SAVEUSER} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
@@ -26,6 +26,12 @@ export async function selectUserList(params) {
   //console.log('login password ==',password)
 
   return request(USERLIST, METHOD.POST, params)
+}
+
+export async function saveuser(params) {
+  console.log('SAVEUSER ==',SAVEUSER)
+  //console.log('login password ==',password)
+  return request(SAVEUSER, METHOD.POST, [params])
 }
 
 

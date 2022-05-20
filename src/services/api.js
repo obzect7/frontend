@@ -8,6 +8,7 @@ module.exports = {
   LOGIN: `${REST_URL}/auth/login`,
   ROUTES: `${BASE_URL}/routes`,
   USERLIST : `${REST_URL}/userinfo/list`,
+  SAVEUSER :`${REST_URL}/userinfo/save`,
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
 }
