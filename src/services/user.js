@@ -31,7 +31,7 @@ export async function selectUserList(params) {
 
 
 export async function getRoutesConfig() {
-  console.log('ROUTES ==',ROUTES)
+  //console.log('ROUTES ==',ROUTES)
   return request(ROUTES, METHOD.GET)
 }
 
