@@ -1,7 +1,7 @@
 <template>
   <a-card>
     <div>
-      <PopUserMgt v-if="isPopUp" @closepop="closePopUserMgt" />
+      <PopUserMgt v-if="isPopUp" @closepop="closePopUserMgt" :popinit="this.popinit" />
     </div>
     <div v-if="!isPopUp" >
       <a-form layout="horizontal" id="frm">
@@ -30,7 +30,9 @@
       </a-form>
     </div>
     <div v-if="!isPopUp">
-      <AUIGrid ref="myGrid" class="grid-wrap"></AUIGrid>
+      <AUIGrid ref="myGrid" class="grid-wrap"
+               @cellClick="cellClickHandler"
+      ></AUIGrid>
     </div>
   </a-card>
 </template>
@@ -59,6 +61,19 @@ export default {
     data: function () {
 
         return {
+
+            popinit : {
+              userid : '',
+              usernm : '',
+              password : '',
+              socialCd : '',
+              usergb : '',
+              hp : '',
+              birthday :'',
+              gender : '',
+              remark : '',
+              useyn : ''
+            },
 
             isPopUp : false,
 
@@ -149,7 +164,7 @@ export default {
         for (let [key, val] of formData.entries()) {
           Object.assign(data, {[key]: val})
         }
-        console.log("data===", data);
+        //console.log("data===", data);
 
         selectUserList(data).then(this.afterselectUserList)
 
@@ -182,6 +197,27 @@ export default {
         this.isPopUp = false
         this.$router.go()
       },
+      //그리드 셀클릭
+      cellClickHandler(event){
+
+
+        this.popinit.userid = event.item.userid;
+        this.popinit.usernm = event.item.usernm;
+        this.popinit.password = event.item.password;
+        this.popinit.socialCd = event.item.socialCd;
+        this.popinit.usergb = event.item.usergb;
+        this.popinit.hp = event.item.hp;
+        this.popinit.birthday = event.item.birthday;
+        this.popinit.gender = event.item.gender;
+        this.popinit.remark = event.item.remark;
+        this.popinit.useyn = event.item.useyn;
+
+        console.log("popinit===", this.popinit)
+
+        this.openPopUserMgt()
+
+
+      }
 
     }
 

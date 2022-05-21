@@ -25,6 +25,12 @@ module.exports = {
       normal: '일반회원',
       coperation: '기업회원',
       all: '일반/기업회원',
+      requserid: '사용자ID를 입력하세요.',
+      requsernm: '사용자명을 입력하세요.',
+      reqpassword: '비밀번호를 입력하세요.',
+      reqsocialCd: '소셜구분을 입력하세요.',
+      requsergb: '사용자구분을 입력하세요.',
+      requseyn: '사용여부를 입력하세요.',
       
     }
   }
