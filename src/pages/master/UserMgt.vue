@@ -149,6 +149,8 @@ export default {
                 fillColumnSizeMode: true,
                 //enableMovingColumn : true, //컬럼헤드 이동여부 true
 
+
+
                 // 한 화면에 출력되는 행 개수 20(기본값:20)
                 //pageRowCount : 20,
 
