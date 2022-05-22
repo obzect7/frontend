@@ -93,10 +93,10 @@ export default {
             // 그리드 칼럼 레이아웃 정의
             columnLayout : [
 
-              {dataField : "userid",    headerText : "사용자ID",width : 120},
-              {dataField : "usernm",    headerText : "사용자명",width : 140},
-              {dataField : "password",  headerText : "비밀번호",width : 120},
-              {dataField : "socialCd",	headerText : "소셜구분"   , width : 120,
+              {dataField : "userid",    headerText : "사용자ID",width : '5%'},
+              {dataField : "usernm",    headerText : "사용자명",width : '5%'},
+              {dataField : "password",  headerText : "비밀번호",width : '5%'},
+              {dataField : "socialCd",	headerText : "소셜구분"   , width : '5%',
                 renderer : {
                   type : "DropDownListRenderer",
                   list : socialCdList, //key-value Object 로 구성된 리스트
@@ -104,7 +104,7 @@ export default {
                   valueField : "codeNm" // value 에 해당되는 필드명
                 }
               },
-              {dataField : "usergb",  	headerText : "사용자구분", width : 120,
+              {dataField : "usergb",  	headerText : "사용자구분", width : '5%',
                 renderer : {
                   type : "DropDownListRenderer",
                   list : usergbList, //key-value Object 로 구성된 리스트
@@ -112,11 +112,11 @@ export default {
                   valueField : "codeNm" // value 에 해당되는 필드명
                 }
               },
-              {dataField : "hp",      	headerText : "전화번호", width : 120},
-              {dataField : "birthday",  headerText : "생일", width : 120},
-              {dataField : "gender",  	headerText : "성별", width : 120},
-              {dataField : "remark",  	headerText : "비고", width : 120},
-              {dataField : "useyn", 	  headerText : "사용여부", width : 120,
+              {dataField : "hp",      	headerText : "전화번호", width : '5%'},
+              {dataField : "birthday",  headerText : "생일", width : '5%'},
+              {dataField : "gender",  	headerText : "성별", width : '5%'},
+              {dataField : "remark",  	headerText : "비고", width : '5%'},
+              {dataField : "useyn", 	  headerText : "사용여부", width : '5%',
                 renderer : {
                   type : "DropDownListRenderer",
                   list : useynList, //key-value Object 로 구성된 리스트
@@ -124,10 +124,10 @@ export default {
                   valueField : "codeNm" // value 에 해당되는 필드명
                 }
               },
-              {dataField : "insuserid",	headerText : "등록자", width : 120},
-              {dataField : "insdttm", 	headerText : "등록일시", width : 120},
-              {dataField : "upduserid",	headerText : "수정자", width : 120},
-              {dataField : "upddttm", 	headerText : "수정일시", width : 120}
+              {dataField : "insuserid",	headerText : "등록자", width : '5%'},
+              {dataField : "insdttm", 	headerText : "등록일시", width : '5%'},
+              {dataField : "upduserid",	headerText : "수정자", width : '5%'},
+              {dataField : "upddttm", 	headerText : "수정일시", width : '5%'}
             ],
 
             // 그리드 속성 정의
