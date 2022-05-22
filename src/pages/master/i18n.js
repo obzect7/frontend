@@ -19,6 +19,7 @@ module.exports = {
       use: '사용',
       unused: '미사용',
       save: '저장',
+      delete: '삭제',
       close: '닫기',
       hp: '모바일',
       usergb: '회원구분',

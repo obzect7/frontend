@@ -1,5 +1,5 @@
 <template>
-  <a-card id="ddddddddddd">
+  <a-card >
     <div>
       <PopUserMgt v-if="isPopUp" @closepop="closePopUserMgt" :popinit="this.popinit" />
     </div>
@@ -24,7 +24,7 @@
         </div>
         <a-row >
           <a-col :md="24" :sm="24" align="right" >
-            <a-button @click="openPopUserMgt({})" type="primary" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
+            <a-button @click="openPopUserMgt(popNew)" type="primary" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -72,9 +72,22 @@ export default {
               birthday :'',
               gender : '',
               remark : '',
-              useyn : ''
+              useyn : '',
+              isNew : null,
             },
-
+            popNew : {
+              userid : '',
+              usernm : '',
+              password : '',
+              socialCd : 'INSIDE',
+              usergb : '',
+              hp : '',
+              birthday :'',
+              gender : '',
+              remark : '',
+              useyn : 'Y',
+              isNew : true,
+            },
             isPopUp : false,
 
             // 그리드 칼럼 레이아웃 정의
@@ -236,8 +249,10 @@ export default {
         console.log("event.item===", event.item)
         //this.popinit = event.item;
         //console.log("popinit===", this.popinit)
+        let POpParam = event.item;
+        Object.assign(POpParam, {['isNew']: false})
 
-        this.openPopUserMgt(event.item)
+        this.openPopUserMgt(POpParam)
         this.isPopUp = true
       }
     }

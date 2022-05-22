@@ -2,7 +2,7 @@
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false" >
     <a-form :form="form" id="PopUserfrm">
       <a-form-item :label="$t('userid')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" >
-        <a-input :placeholder="$t('userid')" name="userid" :required="true"
+        <a-input :placeholder="$t('userid')" name="userid" :required="true" :readonly="!popinit.isNew"
                  v-decorator="['userid', {initialValue: popinit.userid,rules: [{ required: true, message: $t('requserid'), whitespace: true}]}]"
         />
       </a-form-item>
@@ -72,6 +72,7 @@
 
       <a-form-item style="margin-top: 24px" :wrapperCol="{span: 10, offset: 7}">
         <a-button type="primary" style="margin-left: 8px" @click="saveUser" >{{$t('save')}}</a-button>
+        <a-button type="primary" style="margin-left: 8px" @click="deleteUser" v-show="!popinit.isNew" >{{$t('delete')}}</a-button>
         <a-button type="primary" style="margin-left: 8px" @click="close" >{{$t('close')}}</a-button>
       </a-form-item>
 
@@ -114,7 +115,9 @@ export default {
       birthday :'',
       gender : '',
       remark : '',
-      useyn : ''
+      useyn : '',
+      isNew : null,
+
     }
   },
   created() {
@@ -123,21 +126,33 @@ export default {
     if(this.popinit.userid == '')
     {
       console.log('null임')
+      // this.isNew = true;
+
     }
     else {
-      console.log('null아님')
-
+      // console.log('null아님')
       this.socialCd = this.popinit.socialCd;
       this.usergb = this.popinit.usergb;
       this.birthday = this.popinit.birthday;
       this.gender = this.popinit.gender;
       this.remark = this.popinit.remark;
       this.useyn = this.popinit.useyn;
+
+      // this.isNew = false;
+
+      console.log('popinit===', this.popinit)
     }
 
   },
   mounted() {
     //console.log("pop mounted")
+    if(this.popinit.userid == '')
+    {
+      // console.log('null임')
+    }
+    else {
+      // console.log('null아님')
+    }
   },
   computed: {
 
@@ -154,6 +169,7 @@ export default {
       this.form.validateFields((err) => {
 
         if(!err) {
+
           let myForm = document.getElementById('PopUserfrm');
           let formData = new FormData(myForm);
           const data = {};
@@ -161,6 +177,8 @@ export default {
           for (let [key, val] of formData.entries()) {
             Object.assign(data, {[key]: val})
           }
+
+
 
           let insUserid = 'admin' //store에서 가져올것
 
@@ -185,7 +203,23 @@ export default {
         this.$emit("closepop", '')
 
       }
-    }
+    },
+    deleteUser(){
+      //console.log('deleteUser')
+      //console.log('userid', this.userid)
+
+      const data = {};
+      let myForm = document.getElementById('PopUserfrm');
+      let formData = new FormData(myForm);
+      for (let [key, val] of formData.entries()) {
+        Object.assign(data, {[key]: val})
+      }
+
+      Object.assign(data, {['rowStatus']: 'D'})
+      // console.log('data', data)
+      saveuser(data).then(this.aftersaveuser)
+
+    },
   }
 
 }
