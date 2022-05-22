@@ -17,7 +17,7 @@
                 autocomplete="autocomplete"
                 size="large"
                 placeholder="admin"
-                v-decorator="['name', {rules: [{ required: true, message: '아이디를 입력하세요', whitespace: true}]}]"
+                v-decorator="['name', {initialValue: 'admin' ,rules: [{ required: true, message: '아이디를 입력하세요', whitespace: true}]}]"
               >
                 <a-icon slot="prefix" type="user" />
               </a-input>
@@ -28,7 +28,7 @@
                 placeholder="888888"
                 autocomplete="autocomplete"
                 type="password"
-                v-decorator="['password', {rules: [{ required: true, message: '비밀번호를 입력하세요.', whitespace: true}]}]"
+                v-decorator="['password', {initialValue: 'qwer1234!',rules: [{ required: true, message: '비밀번호를 입력하세요.', whitespace: true}]}]"
               >
                 <a-icon slot="prefix" type="lock" />
               </a-input>

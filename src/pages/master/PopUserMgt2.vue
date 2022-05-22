@@ -3,7 +3,7 @@
     <a-form :form="form" id="PopUserfrm">
       <a-form-item :label="$t('userid')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" >
         <a-input :placeholder="$t('userid')" name="userid" :required="true"
-                 v-decorator="['userid', {initialValue: popinit.userid,rules: [{ required: true, message: $t('requserid'), whitespace: true}]}]"
+                 v-decorator="['userid', {initialValue: popinit.usernm,rules: [{ required: true, message: $t('requserid'), whitespace: true}]}]"
         />
       </a-form-item>
       <a-form-item :label="$t('usernm')" :labelCol="{span: 7}" :wrapperCol="{span: 10}" >

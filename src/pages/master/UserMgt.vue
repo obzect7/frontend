@@ -1,9 +1,9 @@
 <template>
-  <a-card>
+  <a-card id="ddddddddddd">
     <div>
       <PopUserMgt v-if="isPopUp" @closepop="closePopUserMgt" :popinit="this.popinit" />
     </div>
-    <div v-if="!isPopUp" >
+    <div v-show="!isPopUp" >
       <a-form layout="horizontal" id="frm">
         <div >
           <a-row >
@@ -24,14 +24,14 @@
         </div>
         <a-row >
           <a-col :md="24" :sm="24" align="right" >
-            <a-button @click="openPopUserMgt" type="primary" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
+            <a-button @click="openPopUserMgt({})" type="primary" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
           </a-col>
         </a-row>
       </a-form>
     </div>
-    <div v-if="!isPopUp">
+    <div v-show="!isPopUp" >
       <AUIGrid ref="myGrid" class="grid-wrap"
-               @cellClick="cellClickHandler"
+               @cellDoubleClick="cellDoubleClickHandler"
       ></AUIGrid>
     </div>
   </a-card>
@@ -122,12 +122,42 @@ export default {
             auigridProps : {
 
                 // 편집 가능 여부 (기본값 : false)
+                // editable : false,
+                // 셀 선택모드 (기본값: singleCell)
+                // selectionMode : "multipleCells"
 
+                noDataMessage : "조회된 데이터가 없습니다.",
+                selectionMode : "multipleCells",
+                height:480,
+                headerHeight:40,
+                //rowHeight:40,
+                usePaging : false,
+                enableDrag : true, // 셀 드래그 여부
+                fillColumnSizeMode: true,
+                //enableMovingColumn : true, //컬럼헤드 이동여부 true
+
+                // 한 화면에 출력되는 행 개수 20(기본값:20)
+                //pageRowCount : 20,
+
+                // 줄번호 칼럼 렌더러 출력
+                showRowNumColumn : false,
+
+                // 그리드 편집 모드
                 editable : false,
 
-                // 셀 선택모드 (기본값: singleCell)
+                // 엑스트라 체크박스 표시 설정
+                showRowCheckColumn : false,
 
-                selectionMode : "multipleCells"
+                // 엑스트라 체크박스에 shiftKey + 클릭으로 다중 선택 할지 여부 (기본값 : false)
+                enableRowCheckShiftKey : true,
+
+                // 전체 체크박스 표시 설정
+                //showRowAllCheckBox : false,
+
+                // 상태 필드 보이기 여부
+                showStateColumn : false,
+
+                autoGridHeight: false,
 
             },
 
@@ -164,7 +194,7 @@ export default {
         for (let [key, val] of formData.entries()) {
           Object.assign(data, {[key]: val})
         }
-        //console.log("data===", data);
+        console.log("data===", data);
 
         selectUserList(data).then(this.afterselectUserList)
 
@@ -188,44 +218,33 @@ export default {
         }
       },
 
-      openPopUserMgt(){
-        //console.log('sssss')
+      openPopUserMgt(param){
+        // this.popinit = {};
+        this.popinit = param;
+
         this.isPopUp = true
       },
       closePopUserMgt(){
         //console.log('sssss')
         this.isPopUp = false
-        this.$router.go()
+        this.search()
+        //this.$router.go()
       },
       //그리드 셀클릭
-      cellClickHandler(event){
+      cellDoubleClickHandler(event){
 
+        console.log("event.item===", event.item)
+        //this.popinit = event.item;
+        //console.log("popinit===", this.popinit)
 
-        this.popinit.userid = event.item.userid;
-        this.popinit.usernm = event.item.usernm;
-        this.popinit.password = event.item.password;
-        this.popinit.socialCd = event.item.socialCd;
-        this.popinit.usergb = event.item.usergb;
-        this.popinit.hp = event.item.hp;
-        this.popinit.birthday = event.item.birthday;
-        this.popinit.gender = event.item.gender;
-        this.popinit.remark = event.item.remark;
-        this.popinit.useyn = event.item.useyn;
-
-        console.log("popinit===", this.popinit)
-
-        this.openPopUserMgt()
-
-
+        this.openPopUserMgt(event.item)
+        this.isPopUp = true
       }
-
     }
-
 }
-
 </script>
 
- 
+
 
 <style scoped>
 

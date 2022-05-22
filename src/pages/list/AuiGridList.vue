@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <AUIGrid ref="myGrid" class="grid-wrap"></AUIGrid>  
+        <AUIGrid ref="myGrid" class="grid-wrap"></AUIGrid>
     </div>
 </template>
 <script>
