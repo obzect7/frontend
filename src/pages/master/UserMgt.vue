@@ -222,7 +222,7 @@ export default {
         if(res.status == "200"){
 
           //console.log("res.data.data==", res.data.data)
-          this.gridData = res.data.data.userList
+          this.gridData = res.data.data.list
 
           // 그리드 데이터 삽입하기
           let grid = this.$refs.myGrid;

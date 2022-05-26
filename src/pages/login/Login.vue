@@ -128,6 +128,8 @@ export default {
         this.setPermissions(permissions)
         this.setRoles(roles)
 
+        this.$session.set('userid', this.form.getFieldValue('name'))
+
         //console.log('loginRes.data===',loginRes.data);
         //console.log('loginRes.token===',loginRes.data.token);
 
@@ -138,8 +140,13 @@ export default {
 
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
+
+          //console.log('result====', JSON.stringify(result.data))
+          //console.log('routesConfig====', JSON.stringify(routesConfig))
+
           loadRoutes(routesConfig)
-          this.$router.push('/master/userMgt')
+
+          this.$router.push('/master/codeMgt')
           this.$message.success(loginRes.message, 3)
         })
       } else {

@@ -133,6 +133,11 @@ function loadRoutes(routesConfig) {
   // 관리자 백그라운드 메뉴 데이터 초기화
   const rootRoute = router.options.routes.find(item => item.path === '/')
   const menuRoutes = rootRoute && rootRoute.children
+
+  //console.log('menuRoutes====', menuRoutes)
+  //console.log('rootRoute====', JSON.stringify(rootRoute))
+  //console.log('menuRoutes====', JSON.stringify(menuRoutes))
+
   if (menuRoutes) {
     store.commit('setting/setMenuData', menuRoutes)
   }

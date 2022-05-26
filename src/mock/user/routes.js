@@ -19,7 +19,8 @@ Mock.mock(`${process.env.VUE_APP_API_BASE_URL}/routes`, 'get', () => {
         name: '인증 양식',
         icon: 'file-excel',
         authority: 'queryForm'
-      }
+      },
+
     ]
   }]
   return result

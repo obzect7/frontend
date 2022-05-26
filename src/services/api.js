@@ -11,4 +11,8 @@ module.exports = {
   SAVEUSER :`${REST_URL}/userinfo/save`,
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
+
+  CODEGRPLIST : `${REST_URL}/commcode/getCommonCodeGrpList`,
+  CODELIST : `${REST_URL}/commcode/getCommonCodeList`,
+  SAVECODEGRP : `${REST_URL}/commcode/saveCommonCodeGrp`,
 }

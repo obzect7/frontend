@@ -87,7 +87,7 @@ import {saveuser} from "@/services/user";
 //import {SAVEUSER} from "@/services/api";
 
 export default {
-  name: 'BasicForm',
+
   i18n: require('./i18n'),
   data () {
     return {
