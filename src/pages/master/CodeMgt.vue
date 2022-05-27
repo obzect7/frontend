@@ -30,6 +30,7 @@
             <a-row >
               <AUIGrid ref="grpGrid" class="grid-wrap"
                        @cellDoubleClick="cellDoubleClickHandler"
+                       @cellEditBegin = "GrpcellEditBegin"
               ></AUIGrid>
             </a-row>
           </div>
@@ -50,7 +51,9 @@
               </a-col>
             </a-row>
             <a-row >
-              <AUIGrid ref="codeGrid" class="grid-wrap"></AUIGrid>
+              <AUIGrid ref="codeGrid" class="grid-wrap"
+                       @cellEditBegin = "CodecellEditBegin"
+              ></AUIGrid>
             </a-row>
           </div>
 
@@ -107,7 +110,7 @@ export default {
               {dataField : "groupNm",     headerText : "그룹코드명",width : '5%'},
               {dataField : "groupNmEn",   headerText : "그룹코드영문명",width : '5%'},
               {dataField : "codeType",    headerText : "코드유형",width : '5%'},
-              {dataField : "rem",         headerText : "비고",width : '5%'},
+              {dataField : "rem",         headerText : "비고",width : '5%', style: "left-text " },
               {dataField : "useYn", 	    headerText : "사용여부", width : '5%',
                 renderer : {
                   type : "DropDownListRenderer",
@@ -129,22 +132,22 @@ export default {
             {dataField : "code",        headerText : "상세코드"     ,width : '5%'},
             {dataField : "codeNm",      headerText : "상세코드명"    ,width : '5%'},
             {dataField : "codeNmEn",    headerText : "코드영문명"    ,width : '5%'},
-            {dataField : "sort",        headerText : "정렬순서"     ,width : '5%', formatString : "#,##0" , style : "right" ,
+            {dataField : "sort",        headerText : "정렬순서"     ,width : '5%', formatString : "#,##0" , style: "right-text ",
               editRenderer : {
-                type : "InputEditRenderer",
+                        type : "InputEditRenderer",
 
-                // 에디팅 유효성 검사
-                validator : function(oldValue, newValue) {
-                  var isValid = false;
-                  var matcher = /^[0-9]*$/; //숫자만 입력 정규식
+                        // 에디팅 유효성 검사
+                        validator : function(oldValue, newValue) {
+                          var isValid = false;
+                          var matcher = /^[0-9]*$/; //숫자만 입력 정규식
 
-                  if(matcher.test(newValue)) {
-                    isValid = true;
-                  }
-                  // 리턴값은 Object 이며 validate 의 값이 true 라면 패스, false 라면 message 를 띄움
-                  return { "validate" : isValid, "message"  : "숫자만 입력가능합니다." };
-                }
-              }
+                          if(matcher.test(newValue)) {
+                            isValid = true;
+                          }
+                          // 리턴값은 Object 이며 validate 의 값이 true 라면 패스, false 라면 message 를 띄움
+                          return { "validate" : isValid, "message"  : "숫자만 입력가능합니다." };
+                        }
+                      }
             },
             {dataField : "data1",       headerText : "데이터1"     ,width : '5%'},
             {dataField : "data2",       headerText : "데이터2"     ,width : '5%'},
@@ -264,6 +267,24 @@ export default {
         //console.log("SELGRPCODE===", this.SELGRPCODE)
         searchDtlCode(GrpParam).then(this.aftersearchDtlCode)
       },
+      GrpcellEditBegin(event){
+
+        // console.log('event===', event)
+        // console.log('event.dataField===', event.dataField)
+        //return false
+
+        const grid = this.$refs.grpGrid;
+        let rowIdField = event.dataField;
+        let rowIndex = event.rowIndex;
+        let rowStatus = grid.getCellValue(rowIndex, 'rowStatus')
+
+        // console.log("rowStatus===", rowStatus)
+
+        if(rowIdField == 'groupCd' && rowStatus != 'I'){
+          return false
+        }
+        return true
+      },
       aftersearchDtlCode(res) {
         //console.log("res.status==", res.status)
         // console.log("res==", res)
@@ -284,7 +305,7 @@ export default {
         }
       },
       addGrp(){
-        let item = { useYn : "Y", };
+        let item = { useYn : "Y", rowStatus : 'I'};
         // 하단에 1행 추가
         this.$refs.grpGrid.addRow(item, "last");
 
@@ -384,7 +405,7 @@ export default {
         }
         //console.log('SELGRPCODE===', this.SELGRPCODE)
 
-        let item = {groupCd:this.SELGRPCODE, groupNm:this.SELGRPNM, useYn : "Y", };
+        let item = {groupCd:this.SELGRPCODE, groupNm:this.SELGRPNM, useYn : "Y", rowStatus : 'I'};
         this.$refs.codeGrid.addRow(item, "last");
       },
       removeCode(){
@@ -475,9 +496,41 @@ export default {
           this.$message.success('저장완료되었습니다.', 3)
         }
       },
+      CodecellEditBegin(event){
+
+        // console.log('event===', event)
+        // console.log('event.dataField===', event.dataField)
+        //return false
+
+        const grid = this.$refs.codeGrid;
+        let rowIdField = event.dataField;
+        let rowIndex = event.rowIndex;
+        let rowStatus = grid.getCellValue(rowIndex, 'rowStatus')
+
+        // console.log("rowStatus===", rowStatus)
+
+        if(rowIdField == 'code' && rowStatus != 'I'){
+          return false
+        }
+        return true
+      },
     }
 }
 </script>
+<style>
+.left-text {
+  text-align: left;
+}
+
+.right-text {
+  text-align: right;
+}
+
+.showcase2-complete-red {
+  color: #ff0000;
+}
+</style>
+
 
 
 
