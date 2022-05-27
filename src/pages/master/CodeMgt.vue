@@ -44,7 +44,9 @@
             </a-row>
             <a-row >
               <a-col :md="24" :sm="24" align="right" >
-                <a-button @click="openPopUserMgt(popNew)" type="primary" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
+                <a-button @click="saveCode" type="primary" style="margin-left: 4px;margin-bottom: 4px">저장</a-button>
+                <a-button @click="addCode" type="primary" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
+                <a-button @click="removeCode" type="primary" style="margin-left: 4px;margin-bottom: 4px">삭제</a-button>
               </a-col>
             </a-row>
             <a-row >
@@ -78,7 +80,7 @@ let useynList = [{"code" : "Y", "codeNm" : "사용"},{"code" : "N", "codeNm" : "
 
 // AUIGrid 컴포넌트
 import AUIGrid from '@/static/AUIGrid-Vue.js/AUIGrid.vue'
-import {searchDtlCode, selectCodeGrpList, savecodeGrp} from '@/services/common'
+import {searchDtlCode, selectCodeGrpList, savecodeGrp, savecodeCode} from '@/services/common'
 
 export default {
 
@@ -114,30 +116,46 @@ export default {
                   valueField : "codeNm" // value 에 해당되는 필드명
                 }
               },
-              {dataField : "regId",	    headerText : "등록자", width : '5%'},
-              {dataField : "regDt", 	  headerText : "등록일시", width : '5%'},
-              {dataField : "modId",	    headerText : "수정자", width : '5%'},
-              {dataField : "modDt", 	  headerText : "수정일시", width : '5%'}
+              {dataField : "regId",	    headerText : "등록자", width : '5%', editable : false},
+              {dataField : "regDt", 	  headerText : "등록일시", width : '5%', editable : false},
+              {dataField : "modId",	    headerText : "수정자", width : '5%', editable : false},
+              {dataField : "modDt", 	  headerText : "수정일시", width : '5%', editable : false}
             ],
 
           CodecolumnLayout : [
 
-            {dataField : "groupCd",     headerText : "그룹코드"     ,width : '5%'},
-            {dataField : "groupNm",     headerText : "그룹코드명"    ,width : '5%'},
+            {dataField : "groupCd",     headerText : "그룹코드"     ,width : '5%', editable : false},
+            {dataField : "groupNm",     headerText : "그룹코드명"    ,width : '5%', editable : false},
             {dataField : "code",        headerText : "상세코드"     ,width : '5%'},
             {dataField : "codeNm",      headerText : "상세코드명"    ,width : '5%'},
             {dataField : "codeNmEn",    headerText : "코드영문명"    ,width : '5%'},
-            {dataField : "sort",        headerText : "정렬순서"     ,width : '5%'},
+            {dataField : "sort",        headerText : "정렬순서"     ,width : '5%', formatString : "#,##0" , style : "right" ,
+              editRenderer : {
+                type : "InputEditRenderer",
+
+                // 에디팅 유효성 검사
+                validator : function(oldValue, newValue) {
+                  var isValid = false;
+                  var matcher = /^[0-9]*$/; //숫자만 입력 정규식
+
+                  if(matcher.test(newValue)) {
+                    isValid = true;
+                  }
+                  // 리턴값은 Object 이며 validate 의 값이 true 라면 패스, false 라면 message 를 띄움
+                  return { "validate" : isValid, "message"  : "숫자만 입력가능합니다." };
+                }
+              }
+            },
             {dataField : "data1",       headerText : "데이터1"     ,width : '5%'},
             {dataField : "data2",       headerText : "데이터2"     ,width : '5%'},
             {dataField : "data3",       headerText : "데이터3"     ,width : '5%'},
             {dataField : "data4",       headerText : "데이터4"     ,width : '5%'},
             {dataField : "data5",       headerText : "데이터5"     ,width : '5%'},
-            {dataField : "data6",       headerText : "데이터6"     ,width : '5%'},
-            {dataField : "data7",       headerText : "데이터7"     ,width : '5%'},
-            {dataField : "data8",       headerText : "데이터8"     ,width : '5%'},
-            {dataField : "data9",       headerText : "데이터9"     ,width : '5%'},
-            {dataField : "data10",      headerText : "데이터10"    ,width : '5%'},
+            // {dataField : "data6",       headerText : "데이터6"     ,width : '5%'},
+            // {dataField : "data7",       headerText : "데이터7"     ,width : '5%'},
+            // {dataField : "data8",       headerText : "데이터8"     ,width : '5%'},
+            // {dataField : "data9",       headerText : "데이터9"     ,width : '5%'},
+            // {dataField : "data10",      headerText : "데이터10"    ,width : '5%'},
             {dataField : "rem",         headerText : "비고"       ,width : '5%'},
             {dataField : "useYn", 	    headerText : "사용여부"   , width : '5%',
               renderer : {
@@ -147,10 +165,10 @@ export default {
                 valueField : "codeNm" // value 에 해당되는 필드명
               }
             },
-            {dataField : "regId",	    headerText : "등록자", width : '5%'},
-            {dataField : "regDt", 	  headerText : "등록일시", width : '5%'},
-            {dataField : "modId",	    headerText : "수정자", width : '5%'},
-            {dataField : "modDt", 	  headerText : "수정일시", width : '5%'}
+            {dataField : "regId",	    headerText : "등록자", width : '5%', editable : false},
+            {dataField : "regDt", 	  headerText : "등록일시", width : '5%', editable : false},
+            {dataField : "modId",	    headerText : "수정자", width : '5%', editable : false},
+            {dataField : "modDt", 	  headerText : "수정일시", width : '5%', editable : false}
           ],
 
             // 그리드 속성 정의
@@ -182,6 +200,7 @@ export default {
             gridDatagrp : [],
             gridDatacode : [],
             SELGRPCODE : '',
+            SELGRPNM : '',
         }
     },
 
@@ -226,6 +245,7 @@ export default {
           grid.setGridData(this.gridDatagrp);
 
           this.SELGRPCODE = ''
+          this.SELGRPNM = ''
 
         }else{
           this.$message.success("조회실패입니다.")
@@ -239,6 +259,7 @@ export default {
 
         let GrpParam = event.item;
         this.SELGRPCODE = GrpParam.groupCd
+        this.SELGRPNM = GrpParam.groupNm
         //console.log("GrpParam===", GrpParam)
         //console.log("SELGRPCODE===", this.SELGRPCODE)
         searchDtlCode(GrpParam).then(this.aftersearchDtlCode)
@@ -278,7 +299,6 @@ export default {
           alert("삭제할 행이 없습니다.");
           return
         }
-
         // for(let i=0; i<items.length; i++){
         for(let i=items.length -1 ; i>-1; i--){
           // console.log("i===" + i.toString())
@@ -286,7 +306,6 @@ export default {
           let chkIdx = items[i].rowIndex;
 
           grid.removeRow(chkIdx);
-
         }
       },
       saveGrp(){
@@ -345,7 +364,7 @@ export default {
           //console.log("data===", JSON.stringify(data))
           savecodeGrp(data).then(this.aftersavecodeGrp)
         } else {
-          alert("추가, 수정, 삭제된 행이 없습니다.");
+          this.$message.warn('추가, 수정, 삭제된 행이 없습니다.', 3)
         }
       },
       aftersavecodeGrp(res){
@@ -355,7 +374,107 @@ export default {
           this.search()
           this.$message.success('저장완료되었습니다.', 3)
         }
-      }
+      },
+      addCode(){
+
+        if(this.SELGRPCODE == '')
+        {
+          this.$message.warn('선택된 그룹코드가 없습니다.', 3)
+          return;
+        }
+        //console.log('SELGRPCODE===', this.SELGRPCODE)
+
+        let item = {groupCd:this.SELGRPCODE, groupNm:this.SELGRPNM, useYn : "Y", };
+        this.$refs.codeGrid.addRow(item, "last");
+      },
+      removeCode(){
+        // 선택행(들) 삭제
+        //this.$refs.grpGrid.removeRow("selectedIndex");
+        const grid = this.$refs.codeGrid;
+        let items = grid.getCheckedRowItems();
+
+        if(items.length == 0){
+          alert("삭제할 행이 없습니다.");
+          return
+        }
+        // for(let i=0; i<items.length; i++){
+        for(let i=items.length -1 ; i>-1; i--){
+          // console.log("i===" + i.toString())
+          // console.log("items===" + JSON.stringify(items[i]))
+          let chkIdx = items[i].rowIndex;
+
+          grid.removeRow(chkIdx);
+        }
+      },
+      saveCode(){
+
+        let user = this.$session.get('userid')
+        //console.log("user===", user)
+        // let regid = user.get('name');
+        // console.log("regid===", regid)
+
+        const grid = this.$refs.codeGrid;
+        // let items = grid.getCheckedRowItems();
+        // console.log("items===", JSON.stringify(items))
+
+        let addedRowItems = grid.getAddedRowItems(); // 추가된 행 아이템들(배열)
+        let editedRowItems = grid.getEditedRowItems(); // 수정된 행 아이템들(배열) (수정되지 않은 칼럼들의 값도 가지고 있음)
+        let removedRowItems = grid.getRemovedItems(); // 삭제된 행 아이템들(배열)
+
+        // console.log("addedRowItems===", JSON.stringify(addedRowItems))
+        // console.log("editedRowItems===", JSON.stringify(editedRowItems))
+        // console.log("removedRowItems===", JSON.stringify(removedRowItems))
+
+        let data = [];
+        if (addedRowItems.length > 0) {
+          for(let i=0;i<addedRowItems.length; i++){
+            let addItem = addedRowItems[i]
+            Object.assign(addItem, {['rowStatus']: 'I'})
+            Object.assign(addItem, {['regId']: user})
+            Object.assign(addItem, {['modId']: user})
+            //console.log("editedItem==", editedItem)
+            data.push(addItem)
+          }
+          //data.add = addedRowItems;
+        }
+        if (editedRowItems.length > 0) {
+          for(let i=0;i<editedRowItems.length; i++){
+            let editedItem = editedRowItems[i]
+            Object.assign(editedItem, {['rowStatus']: 'U'})
+            Object.assign(editedItem, {['modId']: user})
+            //console.log("editedItem==", editedItem)
+            data.push(editedItem)
+          }
+          //data.update = editedRowItems;
+        }
+        if (removedRowItems.length > 0) {
+          for(let i=0;i<removedRowItems.length; i++){
+            let removeItem = removedRowItems[i]
+            Object.assign(removeItem, {['rowStatus']: 'D'})
+            //console.log("editedItem==", editedItem)
+            data.push(removeItem)
+          }
+          //data.remove = removedRowItems;
+        }
+        // if (data.add || data.update || data.remove) {
+        if (data.length > 0) {
+          //alert("저장 로직 작성하세요");
+          //console.log("data===", JSON.stringify(data))
+          savecodeCode(data).then(this.aftersavecodeCode)
+        } else {
+          this.$message.warn('추가, 수정, 삭제된 행이 없습니다.', 3)
+        }
+      },
+      aftersavecodeCode(res){
+
+        const loginRes = res.data
+        if (loginRes.code == '200') {
+
+          let GrpParam = {groupCd:this.SELGRPCODE};
+          searchDtlCode(GrpParam).then(this.aftersearchDtlCode)
+          this.$message.success('저장완료되었습니다.', 3)
+        }
+      },
     }
 }
 </script>

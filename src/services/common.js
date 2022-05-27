@@ -1,4 +1,4 @@
-import {CODEGRPLIST, CODELIST, SAVECODEGRP} from '@/services/api'
+import {CODEGRPLIST, CODELIST, SAVECODEGRP, SAVECODECODE} from '@/services/api'
 import {request, METHOD} from '@/utils/request'
 
 
@@ -21,6 +21,12 @@ export async function savecodeGrp(params) {
   console.log('SAVECODEGRP ==',SAVECODEGRP)
   //console.log('login password ==',password)
   return request(SAVECODEGRP, METHOD.POST, params)
+}
+
+export async function savecodeCode(params) {
+  console.log('SAVECODECODE ==',SAVECODECODE)
+  //console.log('login password ==',password)
+  return request(SAVECODECODE, METHOD.POST, params)
 }
 
 export default {

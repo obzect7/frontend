@@ -15,4 +15,5 @@ module.exports = {
   CODEGRPLIST : `${REST_URL}/commcode/getCommonCodeGrpList`,
   CODELIST : `${REST_URL}/commcode/getCommonCodeList`,
   SAVECODEGRP : `${REST_URL}/commcode/saveCommonCodeGrp`,
+  SAVECODECODE : `${REST_URL}/commcode/saveCommonCode`,
 }
